@@ -5,15 +5,18 @@ import {
   DashboardPageHeaderTitle,
   DashboardPageMain,
 } from "@/components/dashboard/page";
+import { TodoDataTable } from "../_components/Todo-data-table";
 
 export default function Page() {
   return (
     <DashboardPage>
       <DashboardPageHeader>
-        <DashboardPageHeaderTitle>Dashboard</DashboardPageHeaderTitle>
+        <DashboardPageHeaderTitle>Settings</DashboardPageHeaderTitle>
         <DashboardPageHeaderNav></DashboardPageHeaderNav>
       </DashboardPageHeader>
-      <DashboardPageMain>Tarefas</DashboardPageMain>
+      <DashboardPageMain>
+        <TodoDataTable />
+      </DashboardPageMain>
     </DashboardPage>
   );
 }
