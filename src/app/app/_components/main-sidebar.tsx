@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import {
   SidebarHeader,
@@ -10,18 +10,18 @@ import {
   SidebarFooter,
   SidebarFooterMain,
   Sidebar,
-} from '@/components/dashboard/side-bar';
-import { usePathname } from 'next/navigation';
-import { CubeIcon, MixerVerticalIcon } from '@radix-ui/react-icons';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Logo } from '@/components/Logo';
+} from "@/components/dashboard/side-bar";
+import { usePathname } from "next/navigation";
+import { CubeIcon, MixerVerticalIcon } from "@radix-ui/react-icons";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Logo } from "@/components/Logo";
 
 export default function MainSidebar() {
   const pathname = usePathname();
 
   const isActive = (path: string) => {
     return pathname === path;
-  }
+  };
 
   return (
     <Sidebar>
@@ -34,9 +34,9 @@ export default function MainSidebar() {
         <SidebarMain>
           <SidebarLink
             href="/app/dashboard"
-            active={isActive('/app/dashboard')}
+            active={isActive("/app/dashboard")}
           >
-            <CubeIcon className="w-4 h-4 mr-3"/>
+            <CubeIcon className="w-4 h-4 mr-3" />
             dashboard
           </SidebarLink>
         </SidebarMain>
@@ -46,8 +46,8 @@ export default function MainSidebar() {
 
       <SidebarNav>
         <SidebarMain>
-          <SidebarLink href="">
-            <MixerVerticalIcon className="w-4 h-4 mr-3"/>
+          <SidebarLink href="/app/setting" active={isActive("/app/setting")}>
+            <MixerVerticalIcon className="w-4 h-4 mr-3" />
             Configurações
           </SidebarLink>
         </SidebarMain>
@@ -58,10 +58,10 @@ export default function MainSidebar() {
           <AvatarFallback>GR</AvatarFallback>
         </Avatar>
         <SidebarFooterMain>
-          <span className='text-xs uppercase'>Gabriel Rieff</span>
-          <span className='text-xs font-semibold'>gabrielrieff1@gmail.com</span>
+          <span className="text-xs uppercase">Gabriel Rieff</span>
+          <span className="text-xs font-semibold">gabrielrieff1@gmail.com</span>
         </SidebarFooterMain>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
