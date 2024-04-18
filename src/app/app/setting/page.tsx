@@ -10,7 +10,7 @@ export default function Setting() {
   return (
     <DashboardPage>
       <DashboardPageHeader>
-        <DashboardPageHeaderTitle>Dashboard</DashboardPageHeaderTitle>
+        <DashboardPageHeaderTitle>Settings</DashboardPageHeaderTitle>
         <DashboardPageHeaderNav></DashboardPageHeaderNav>
       </DashboardPageHeader>
       <DashboardPageMain>settings</DashboardPageMain>

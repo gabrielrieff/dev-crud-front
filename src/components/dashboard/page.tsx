@@ -17,7 +17,12 @@ export function DashboardPageHeader({
   children,
 }: DashboardPageGenericProps) {
   return (
-    <header className={cn(["border-b border-border p-7", className])}>
+    <header
+      className={cn([
+        "border-b border-border p-[22px] flex justify-between items-center",
+        className,
+      ])}
+    >
       {children}
     </header>
   );
