@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import {
   ColumnDef,
@@ -35,59 +33,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Todo } from "../type";
-
-const data: Todo[] = [
-  {
-    id: "1",
-    title: "Adicionar campo de descrição",
-    description:
-      "Atualizar a interface Todo para incluir um campo de descrição opcional.",
-    created_at: new Date("2024-04-12"),
-    update_at: new Date("2024-04-13"),
-  },
-  {
-    id: "2",
-    title: "Corrigir nome do campo",
-    description:
-      "Renomear o campo update_at para updated_at para manter consistência na nomenclatura.",
-    created_at: new Date("2024-04-16"),
-    update_at: new Date("2024-04-16"),
-    finish_at: new Date("2024-04-20"),
-  },
-  {
-    id: "3",
-    title: "Implementar exclusão de tarefas",
-    description:
-      "Desenvolver a funcionalidade que permite aos usuários excluir tarefas da lista.",
-    created_at: new Date("2024-04-14"),
-    update_at: new Date("2024-04-14"),
-  },
-  {
-    id: "4",
-    title: "Criar endpoint de busca",
-    description:
-      "Implementar um endpoint na API que permita aos usuários buscar tarefas por título.",
-    created_at: new Date("2024-04-15"),
-    update_at: new Date("2024-04-16"),
-    finish_at: new Date("2024-05-05"),
-  },
-  {
-    id: "5",
-    title: "Aprimorar interface com animações",
-    description:
-      "Melhorar a experiência do usuário adicionando animações sutis aos elementos da interface.",
-    created_at: new Date("2024-04-12"),
-    update_at: new Date("2024-04-13"),
-  },
-  {
-    id: "6",
-    title: "Aprimorar interface com animações",
-    description:
-      "Melhorar a experiência do usuário adicionando animações sutis aos elementos da interface.",
-    created_at: new Date("2024-04-12"),
-    update_at: new Date("2024-04-13"),
-  },
-];
+import { useContext } from "react";
+import { AuthContext } from "@/context/authContext";
 
 export const columns: ColumnDef<Todo>[] = [
   {
@@ -116,7 +63,26 @@ export const columns: ColumnDef<Todo>[] = [
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
+    cell: ({ row }) => (
+      <div className="truncate md:max-w-16">{row.getValue("title")}</div>
+    ),
+  },
+  {
+    accessorKey: "description",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Descrição
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => (
+      <div className="truncate lg:max-w-36">{row.getValue("description")}</div>
+    ),
   },
   {
     accessorKey: "created_at",
@@ -124,7 +90,7 @@ export const columns: ColumnDef<Todo>[] = [
     cell: ({ row }) => {
       return (
         <div className="text-right font-medium">
-          {row.original.created_at.toDateString()}
+          {new Date(row.original.created_at).toLocaleDateString("pt-BR")}
         </div>
       );
     },
@@ -134,6 +100,8 @@ export const columns: ColumnDef<Todo>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const todo = row.original;
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const { DeleteTodo, FinishTodo } = useContext(AuthContext);
 
       return (
         <DropdownMenu>
@@ -148,11 +116,18 @@ export const columns: ColumnDef<Todo>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(todo.id)}
             >
-              Copy todo ID
+              Copiar ID do Todo
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Mark as done</DropdownMenuItem>
-            <DropdownMenuItem>Datele</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => FinishTodo(todo.id)}>
+              Marcar o TODO como concluído
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => DeleteTodo(todo.id)}>
+              Excluir TODO
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => DeleteTodo(todo.id)}>
+              Editar TODO
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -160,7 +135,11 @@ export const columns: ColumnDef<Todo>[] = [
   },
 ];
 
-export function TodoDataTable() {
+interface TodoDataTableProps {
+  data: Todo[];
+}
+
+export function TodoDataTable({ data }: TodoDataTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []

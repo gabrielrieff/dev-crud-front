@@ -11,8 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Todo } from "./Todo-data-table";
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import {
   Form,
   FormField,
@@ -23,6 +22,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
+import { Todo } from "../type";
+import { AuthContext } from "@/context/authContext";
 
 interface TodoUpsertSheetProps {
   children: React.ReactNode;
@@ -31,18 +32,20 @@ interface TodoUpsertSheetProps {
 
 export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const { CreateTodos } = useContext(AuthContext);
 
   const form = useForm();
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+  const onSubmit = form.handleSubmit(async (data) => {
+    const { title, description } = data;
+    await CreateTodos(title, description);
   });
   return (
     <Sheet>
       <SheetTrigger asChild>
         <div ref={ref}>{children}</div>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="max-w-lg">
         <Form {...form}>
           <form onSubmit={onSubmit} className="space-y-8 h-screen">
             <SheetHeader>
@@ -69,9 +72,28 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descrição</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Digite a Descriçãoo do TODO"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este será a Descrição do seu TODO.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <SheetFooter>
-              <Button type="submit">Save changes</Button>
+              <Button type="submit">Salvar TODO</Button>
             </SheetFooter>
           </form>
         </Form>

@@ -15,9 +15,12 @@ import { usePathname } from "next/navigation";
 import { CubeIcon, MixerVerticalIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Logo } from "@/components/Logo";
+import { useContext } from "react";
+import { AuthContext } from "@/context/authContext";
 
 export default function MainSidebar() {
   const pathname = usePathname();
+  const { user } = useContext(AuthContext);
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -27,17 +30,14 @@ export default function MainSidebar() {
     <Sidebar>
       <SidebarHeader>
         <Logo />
-        <SidebarTitleHeader>dev-crud</SidebarTitleHeader>
+        <SidebarTitleHeader className="xl:hidden">dev-crud</SidebarTitleHeader>
       </SidebarHeader>
 
       <SidebarNav className="flex flex-col flex-grow">
         <SidebarMain>
-          <SidebarLink
-            href="/app/dashboard"
-            active={isActive("/app/dashboard")}
-          >
+          <SidebarLink href="/app" active={isActive("/app")}>
             <CubeIcon className="w-4 h-4 mr-3" />
-            dashboard
+            <span className="xl:hidden">dashboard</span>
           </SidebarLink>
         </SidebarMain>
       </SidebarNav>
@@ -48,18 +48,20 @@ export default function MainSidebar() {
         <SidebarMain>
           <SidebarLink href="/app/setting" active={isActive("/app/setting")}>
             <MixerVerticalIcon className="w-4 h-4 mr-3" />
-            Configurações
+            <span className="xl:hidden">Configurações</span>
           </SidebarLink>
         </SidebarMain>
       </SidebarNav>
 
-      <SidebarFooter>
+      <SidebarFooter className="xl:flex-col">
         <Avatar>
           <AvatarFallback>GR</AvatarFallback>
         </Avatar>
         <SidebarFooterMain>
-          <span className="text-xs uppercase">Gabriel Rieff</span>
-          <span className="text-xs font-semibold">gabrielrieff1@gmail.com</span>
+          <span className="text-xs uppercase xl:text-center">
+            {user?.first_name} {user?.last_name}
+          </span>
+          <span className="text-xs font-semibold xl:hidden">{user?.email}</span>
         </SidebarFooterMain>
       </SidebarFooter>
     </Sidebar>

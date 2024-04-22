@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DashboardPage,
   DashboardPageHeader,
@@ -9,8 +11,12 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 import { TodoUpsertSheet } from "./_components/todo-upsert-sheet";
 import { TodoDataTable } from "./_components/Todo-data-table";
+import { useContext } from "react";
+import { AuthContext } from "@/context/authContext";
 
 export default function Page() {
+  const { todos } = useContext(AuthContext);
+
   return (
     <DashboardPage>
       <DashboardPageHeader>
@@ -25,7 +31,7 @@ export default function Page() {
         </DashboardPageHeaderNav>
       </DashboardPageHeader>
       <DashboardPageMain>
-        <TodoDataTable />
+        <TodoDataTable data={todos} />
       </DashboardPageMain>
     </DashboardPage>
   );
