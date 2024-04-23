@@ -17,10 +17,18 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Logo } from "@/components/Logo";
 import { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
 
 export default function MainSidebar() {
   const pathname = usePathname();
-  const { user } = useContext(AuthContext);
+  const { user, singOut } = useContext(AuthContext);
 
   const isActive = (path: string) => {
     return pathname === path;
@@ -54,15 +62,27 @@ export default function MainSidebar() {
       </SidebarNav>
 
       <SidebarFooter className="xl:flex-col">
-        <Avatar>
-          <AvatarFallback>GR</AvatarFallback>
-        </Avatar>
-        <SidebarFooterMain>
-          <span className="text-xs uppercase xl:text-center">
-            {user?.first_name} {user?.last_name}
-          </span>
-          <span className="text-xs font-semibold xl:hidden">{user?.email}</span>
-        </SidebarFooterMain>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant={"ghost"}>
+              <Avatar>
+                <AvatarFallback>GR</AvatarFallback>
+              </Avatar>
+              <SidebarFooterMain>
+                <span className="text-xs uppercase xl:text-center">
+                  {user?.first_name} {user?.last_name}
+                </span>
+                <span className="text-xs font-semibold xl:hidden">
+                  {user?.email}
+                </span>
+              </SidebarFooterMain>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuItem onClick={singOut}>Sair</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   );
