@@ -2,10 +2,11 @@
 
 import { Todos } from "@/app/@types/todos/todos";
 import { User } from "@/app/@types/user";
+import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
-import { ReactNode, createContext, use, useEffect, useState } from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 type AuthContextData = {
   user?: User;
@@ -22,6 +23,7 @@ export const AuthContext = createContext({} as AuthContextData);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const { push } = useRouter();
+  const { toast } = useToast();
 
   const [user, setUser] = useState<User>();
   const [todos, setTodos] = useState<Todos[]>([]);
@@ -75,7 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-
+      GetTodos();
       push("/app");
     } catch (error) {
       console.log(error);
@@ -138,8 +140,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       const todo = response.data.Todo;
       setTodos((Action) => [...Action, todo]);
+
+      toast({
+        title: "TODO criado com sucesso",
+        description: `Seu TODO '${title}' foi criado !`,
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Erro ao criar o TODO",
+      });
     }
   }
   return (
