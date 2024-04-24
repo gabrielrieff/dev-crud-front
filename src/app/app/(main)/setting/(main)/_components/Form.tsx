@@ -25,6 +25,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { UpdateUserProps } from "@/app/@types/user";
 
 export function ProfileForm() {
   const { user, UpdateUser, DeleteUser } = useContext(AuthContext);
@@ -57,7 +58,19 @@ export function ProfileForm() {
       return;
     }
 
-    UpdateUser(first_name, last_name, email, password);
+    const dataUpdate: UpdateUserProps = {
+      ...(user?.first_name !== first_name && { first_name }),
+      ...(user?.last_name !== last_name && { last_name }),
+      ...(user?.email !== email && { email }),
+      ...(password && { password }),
+    };
+
+    UpdateUser(
+      dataUpdate.first_name,
+      dataUpdate.last_name,
+      dataUpdate.email,
+      dataUpdate.password
+    );
   });
   return (
     <div className="flex flex-col gap-4">
@@ -81,7 +94,10 @@ export function ProfileForm() {
                         <Input
                           placeholder="Digite o primeiro nome"
                           {...field}
-                          value={field.value}
+                          defaultValue={field.value}
+                          onChange={(e) => {
+                            field.onChange(e.target.value);
+                          }}
                         />
                       </FormControl>
 
@@ -108,7 +124,10 @@ export function ProfileForm() {
                         <Input
                           placeholder="Digite o Segundo nome"
                           {...field}
-                          value={field.value}
+                          defaultValue={field.value}
+                          onChange={(e) => {
+                            field.onChange(e.target.value);
+                          }}
                         />
                       </FormControl>
 
@@ -137,7 +156,10 @@ export function ProfileForm() {
                         autoComplete="off"
                         type="email"
                         {...field}
-                        value={field.value}
+                        defaultValue={field.value}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -165,7 +187,6 @@ export function ProfileForm() {
                           autoComplete="off"
                           type="password"
                           {...field}
-                          value={field.value}
                         />
                       </FormControl>
                       <FormMessage />

@@ -34,6 +34,7 @@ import { Badge } from "@/components/ui/badge";
 import { Todo } from "../type";
 import { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
+import { TodoUpsertSheet } from "./todo-upsert-sheet";
 
 export const columns: ColumnDef<Todo>[] = [
   {
@@ -113,6 +114,15 @@ export const columns: ColumnDef<Todo>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { DeleteTodo, FinishTodo } = useContext(AuthContext);
 
+      const defaultValue: Todo = {
+        id: todo.id,
+        title: todo.title,
+        description: todo.description,
+        created_at: todo.created_at,
+        update_at: todo.update_at,
+        finish_at: todo.finish_at,
+      };
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -135,9 +145,15 @@ export const columns: ColumnDef<Todo>[] = [
             <DropdownMenuItem onClick={() => DeleteTodo(todo.id)}>
               Excluir TODO
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => DeleteTodo(todo.id)}>
-              Editar TODO
-            </DropdownMenuItem>
+
+            <TodoUpsertSheet defaultValue={defaultValue}>
+              <Button
+                className="w-full justify-start px-2 font-normal"
+                variant={"ghost"}
+              >
+                Editar TODO
+              </Button>
+            </TodoUpsertSheet>
           </DropdownMenuContent>
         </DropdownMenu>
       );

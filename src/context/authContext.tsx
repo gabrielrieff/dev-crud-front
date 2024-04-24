@@ -1,7 +1,7 @@
 "use client";
 
 import { Todos } from "@/app/@types/todos/todos";
-import { User } from "@/app/@types/user";
+import { RegisterUserProps, User } from "@/app/@types/user";
 import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
@@ -32,11 +32,6 @@ type AuthContextData = {
   FinishTodo: (id: string) => void;
   CreateTodos: (title: string, description: string) => void;
 };
-
-type RegisterUserProps = Pick<
-  User,
-  "first_name" | "last_name" | "email" | "password"
->;
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -245,6 +240,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   }
+
+  async function UpdadeTodo() {}
   return (
     <AuthContext.Provider
       value={{

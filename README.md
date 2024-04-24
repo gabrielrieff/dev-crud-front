@@ -9,10 +9,10 @@
 
 ### Usuario/Settings
 
-[] - Tela de settings;
-[] - Update de Usuario;
-[] - Tema ligth e dark;
-[] - Deletar usuario;
-[] - Criar função para registrar usuarios;
+[x] - Tela de settings;
+[x] - Update de Usuario;
+[x] - Tema ligth e dark;
+[x] - Deletar usuario;
+[x] - Criar função para registrar usuarios;
 [x] - Popover usuario;
 -- [x] - SingOut;

@@ -30,7 +30,10 @@ interface TodoUpsertSheetProps {
   defaultValue?: Todo;
 }
 
-export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
+export function TodoUpsertSheet({
+  children,
+  defaultValue,
+}: TodoUpsertSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { CreateTodos } = useContext(AuthContext);
 
@@ -38,7 +41,13 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
 
   const onSubmit = form.handleSubmit(async (data) => {
     const { title, description } = data;
-    await CreateTodos(title, description);
+
+    if (defaultValue) {
+      console.log(title, description);
+      console.log("editar todo");
+    } else {
+      await CreateTodos(title, description);
+    }
   });
   return (
     <Sheet>
@@ -63,7 +72,14 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
                 <FormItem>
                   <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="Digite o título do TODO" {...field} />
+                    <Input
+                      placeholder="Digite o título do TODO"
+                      {...field}
+                      defaultValue={defaultValue ? defaultValue.title : ""}
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
+                    />
                   </FormControl>
                   <FormDescription>
                     Este será o título do seu TODO.
@@ -82,6 +98,12 @@ export function TodoUpsertSheet({ children }: TodoUpsertSheetProps) {
                     <Input
                       placeholder="Digite a Descriçãoo do TODO"
                       {...field}
+                      defaultValue={
+                        defaultValue ? defaultValue.description : ""
+                      }
+                      onChange={(e) => {
+                        field.onChange(e.target.value);
+                      }}
                     />
                   </FormControl>
                   <FormDescription>
