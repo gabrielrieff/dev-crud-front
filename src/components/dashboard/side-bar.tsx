@@ -68,8 +68,26 @@ export function SidebarLink({
     <Link
       href={href}
       className={cn([
-        "text-sm px-3 py-2 rounded-md flex items-center",
+        "text-sm px-3 py-2 rounded-md flex items-center hover:bg-secondary-foreground hover:text-white dark:hover:bg-orange-500 transition-[1s]",
         active && "bg-secondary font-medium",
+        className,
+      ])}
+    >
+      {children}
+    </Link>
+  );
+}
+
+export function SidebarLinkSimple({
+  className,
+  children,
+  href,
+}: SidebarGenericProps<SidebarLinkProps>) {
+  return (
+    <Link
+      href={href}
+      className={cn([
+        "text-sm px-3 py-2 rounded-md flex items-center hover:text-orange-500 dark:hover:text-orange-500 transition-[1s]",
         className,
       ])}
     >

@@ -10,6 +10,7 @@ import {
   SidebarFooter,
   SidebarFooterMain,
   Sidebar,
+  SidebarLinkSimple,
 } from "@/components/dashboard/side-bar";
 import { usePathname } from "next/navigation";
 import { CubeIcon, MixerVerticalIcon } from "@radix-ui/react-icons";
@@ -48,11 +49,6 @@ export default function MainSidebar() {
             <span className="xl:hidden">dashboard</span>
           </SidebarLink>
         </SidebarMain>
-      </SidebarNav>
-
-      <SidebarLinkDivisor>Links extras</SidebarLinkDivisor>
-
-      <SidebarNav>
         <SidebarMain>
           <SidebarLink href="/app/setting" active={isActive("/app/setting")}>
             <MixerVerticalIcon className="w-4 h-4 mr-3" />
@@ -61,14 +57,24 @@ export default function MainSidebar() {
         </SidebarMain>
       </SidebarNav>
 
+      <SidebarLinkDivisor>Links extras</SidebarLinkDivisor>
+
+      <SidebarNav>
+        <SidebarMain>
+          <SidebarLinkSimple href="/">
+            <span className="xl:hidden">Landing page</span>
+          </SidebarLinkSimple>
+        </SidebarMain>
+      </SidebarNav>
+
       <SidebarFooter className="xl:flex-col">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant={"ghost"}>
+            <Button variant={"ghost"} className="gap-2">
               <Avatar>
                 <AvatarFallback>GR</AvatarFallback>
               </Avatar>
-              <SidebarFooterMain>
+              <SidebarFooterMain className="items-start">
                 <span className="text-xs uppercase xl:text-center">
                   {user?.first_name} {user?.last_name}
                 </span>
