@@ -46,7 +46,18 @@ export const columns: ColumnDef<Todo>[] = [
         ? "outline"
         : "default";
 
-      return <Badge variant={statusVariant}>{status}</Badge>;
+      return (
+        <Badge
+          variant={statusVariant}
+          className={
+            statusVariant === "outline"
+              ? "bg-emerald-500 text-white"
+              : "bg-orange-500"
+          }
+        >
+          {status}
+        </Badge>
+      );
     },
   },
   {

@@ -12,6 +12,14 @@ type AuthContextData = {
   user?: User;
   signIn: (email_user: string, password_user: string) => void;
   singOut: () => void;
+  DeleteUser: (id: string) => void;
+  UpdateUser: (
+    first_name?: string,
+    last_name?: string,
+    email?: string,
+    password?: string
+  ) => void;
+
   todos: Todos[];
 
   DeleteTodo: (id: string) => void;
@@ -34,14 +42,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       api
         .get(`/detail`)
         .then((response) => {
-          const { id, first_name, last_name, email, password } = response.data;
-
+          const { id, first_name, last_name, email } = response.data;
           setUser({
             id,
             first_name,
             last_name,
             email,
-            password,
             token,
           });
           GetTodos();
@@ -59,8 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         password: password_user,
       });
 
-      const { id, first_name, last_name, email, password, token } =
-        response.data as User;
+      const { id, first_name, last_name, email, token } = response.data as User;
 
       setCookie(undefined, "@nextauth.token", token, {
         maxAge: 60 * 60 * 24 * 30,
@@ -72,7 +77,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         first_name,
         last_name,
         email,
-        password,
         token,
       });
 
@@ -96,6 +100,53 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  async function UpdateUser(
+    first_name?: string,
+    last_name?: string,
+    email?: string,
+    password?: string
+  ) {
+    try {
+      const dataToUpdate = {
+        ...(first_name && { first_name }),
+        ...(last_name && { last_name }),
+        ...(email && { email }),
+        ...(password && { password }),
+      };
+
+      const response = await api.patch("/user", dataToUpdate);
+
+      const {
+        id,
+        first_name: firstName,
+        last_name: lastName,
+        email: Email,
+      } = response.data as User;
+
+      const tokenUser = user!.token;
+
+      setUser({
+        id,
+        first_name: firstName,
+        last_name: lastName,
+        email: Email,
+        token: tokenUser,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function DeleteUser(id: string) {
+    try {
+      await api.delete(`/user/${id}`);
+
+      singOut();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   //TODOS
   async function GetTodos() {
     try {
@@ -111,8 +162,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await api.delete(`/todo/${id}`);
       const todosFilter = todos.filter((todo) => todo.id !== id);
       setTodos(todosFilter);
+
+      toast({
+        title: "TODO deletado com sucesso",
+        description: `Seu TODO foi deletado com sucesso!`,
+      });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Erro ao deletar o TODO",
+        description: `Houve um erro ao tentar deletar o TODO. Por favor, tente novamente mais tarde.`,
+      });
     }
   }
 
@@ -127,6 +186,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return todo;
       });
       setTodos(finishTodo);
+
+      toast({
+        title: "TODO finalizado com sucesso",
+        description: `Seu TODO foi marcado como finalizado com sucesso!`,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -138,7 +202,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         title,
         description,
       });
-      const todo = response.data.Todo;
+      const todo = response.data;
       setTodos((Action) => [...Action, todo]);
 
       toast({
@@ -158,6 +222,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         signIn,
         singOut,
+        DeleteUser,
+        UpdateUser,
         todos,
         DeleteTodo,
         FinishTodo,
