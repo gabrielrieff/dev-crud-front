@@ -1,8 +1,8 @@
 "use client";
 
 import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs";
-import { FormRegisterUser } from "../app/_components/form-register-user";
-import { FormLoginUser } from "../app/_components/form-login-user";
+import { FormRegisterUser } from "./_components/form-register-user";
+import { FormLoginUser } from "./_components/form-login-user";
 
 export default function Login() {
   return (

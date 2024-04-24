@@ -13,6 +13,12 @@ type AuthContextData = {
   signIn: (email_user: string, password_user: string) => void;
   singOut: () => void;
   DeleteUser: (id: string) => void;
+  RegisterNewUser: ({
+    first_name,
+    last_name,
+    email,
+    password,
+  }: RegisterUserProps) => void;
   UpdateUser: (
     first_name?: string,
     last_name?: string,
@@ -26,6 +32,11 @@ type AuthContextData = {
   FinishTodo: (id: string) => void;
   CreateTodos: (title: string, description: string) => void;
 };
+
+type RegisterUserProps = Pick<
+  User,
+  "first_name" | "last_name" | "email" | "password"
+>;
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -137,6 +148,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  async function RegisterNewUser({
+    first_name,
+    last_name,
+    email,
+    password,
+  }: RegisterUserProps) {
+    try {
+      await api.post("/user", {
+        first_name,
+        last_name,
+        email,
+        password,
+      });
+
+      signIn(email, password!);
+    } catch (error) {}
+  }
+
   async function DeleteUser(id: string) {
     try {
       await api.delete(`/user/${id}`);
@@ -224,6 +253,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         singOut,
         DeleteUser,
         UpdateUser,
+        RegisterNewUser,
         todos,
         DeleteTodo,
         FinishTodo,

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 
 import { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
-import { useSchemaLogin } from "./schemaLogin";
+import { useSchemaLogin } from "../../app/_components/schemaLogin";
 import { z } from "zod";
 
 export function FormLoginUser() {
