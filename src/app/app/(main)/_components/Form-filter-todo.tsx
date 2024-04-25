@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { table } from "console";
 import { CalendarIcon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -44,12 +43,12 @@ export function FormFilterTodo() {
               <FormLabel>Todo</FormLabel>
               <Input
                 placeholder="Filtrar por TODO"
-                value={
-                  (table.getColumn("title")?.getFilterValue() as string) ?? ""
-                }
-                onChange={(event) =>
-                  table.getColumn("email")?.setFilterValue(event.target.value)
-                }
+                // value={
+                //   (table.getColumn("title")?.getFilterValue() as string) ?? ""
+                // }
+                // onChange={(event) =>
+                //   table.getColumn("title")?.setFilterValue(event.target.value)
+                // }
                 className="max-w-sm"
               />
             </FormItem>
