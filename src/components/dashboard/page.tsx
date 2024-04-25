@@ -33,7 +33,9 @@ export function DashboardPageHeaderTitle({
   children,
 }: DashboardPageGenericProps) {
   return (
-    <h1 className={cn(["font-semibold uppercase", className])}>{children}</h1>
+    <h1 className={cn(["font-semibold uppercase lg:pl-14", className])}>
+      {children}
+    </h1>
   );
 }
 

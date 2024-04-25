@@ -11,11 +11,11 @@ type SidebarLinkProps = {
   active?: boolean;
 };
 
-export function Sidebar({ className, children }: SidebarGenericProps) {
+export function Sidebar({ className, children, active }: SidebarGenericProps) {
   return (
     <aside
       className={cn([
-        "border-r border-border flex flex-col space-y-6",
+        "border-r border-border flex flex-col space-y-6 lg:h-full lg:border-0",
         className,
       ])}
     >

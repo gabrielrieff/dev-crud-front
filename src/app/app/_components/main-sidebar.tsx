@@ -14,6 +14,7 @@ import {
 } from "@/components/dashboard/side-bar";
 import { usePathname } from "next/navigation";
 import { CubeIcon, MixerVerticalIcon } from "@radix-ui/react-icons";
+
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Logo } from "@/components/Logo";
 import { useContext } from "react";
@@ -27,7 +28,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-export default function MainSidebar() {
+interface MainSidebarProps {
+  className?: string;
+}
+
+export default function MainSidebar({ className }: MainSidebarProps) {
   const pathname = usePathname();
   const { user, singOut } = useContext(AuthContext);
 
@@ -36,23 +41,23 @@ export default function MainSidebar() {
   };
 
   return (
-    <Sidebar>
+    <Sidebar className={className}>
       <SidebarHeader>
         <Logo />
-        <SidebarTitleHeader className="xl:hidden">dev-crud</SidebarTitleHeader>
+        <SidebarTitleHeader>dev-crud</SidebarTitleHeader>
       </SidebarHeader>
 
       <SidebarNav className="flex flex-col flex-grow">
         <SidebarMain>
           <SidebarLink href="/app" active={isActive("/app")}>
             <CubeIcon className="w-4 h-4 mr-3" />
-            <span className="xl:hidden">dashboard</span>
+            <span className="">dashboard</span>
           </SidebarLink>
         </SidebarMain>
         <SidebarMain>
           <SidebarLink href="/app/setting" active={isActive("/app/setting")}>
             <MixerVerticalIcon className="w-4 h-4 mr-3" />
-            <span className="xl:hidden">Configurações</span>
+            <span>Configurações</span>
           </SidebarLink>
         </SidebarMain>
       </SidebarNav>
@@ -62,12 +67,12 @@ export default function MainSidebar() {
       <SidebarNav>
         <SidebarMain>
           <SidebarLinkSimple href="/">
-            <span className="xl:hidden">Landing page</span>
+            <span className="">Landing page</span>
           </SidebarLinkSimple>
         </SidebarMain>
       </SidebarNav>
 
-      <SidebarFooter className="xl:flex-col">
+      <SidebarFooter className="justify-start">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant={"ghost"} className="gap-2">
@@ -75,12 +80,10 @@ export default function MainSidebar() {
                 <AvatarFallback>GR</AvatarFallback>
               </Avatar>
               <SidebarFooterMain className="items-start">
-                <span className="text-xs uppercase xl:text-center">
+                <span className="text-xs uppercase">
                   {user?.first_name} {user?.last_name}
                 </span>
-                <span className="text-xs font-semibold xl:hidden">
-                  {user?.email}
-                </span>
+                <span className="text-xs font-semibold">{user?.email}</span>
               </SidebarFooterMain>
             </Button>
           </DropdownMenuTrigger>

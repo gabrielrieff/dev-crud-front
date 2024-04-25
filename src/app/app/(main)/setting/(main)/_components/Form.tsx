@@ -170,7 +170,7 @@ export function ProfileForm() {
           </Card>
 
           <Card className="flex">
-            <div className="w-full">
+            <div className="w-full flex flex-col justify-between">
               <CardHeader>
                 <CardTitle>Nova senha</CardTitle>
                 <CardDescription>Este será sua nova senha.</CardDescription>
@@ -195,7 +195,7 @@ export function ProfileForm() {
                 />
               </CardContent>
             </div>
-            <div className="w-full">
+            <div className="w-full flex flex-col justify-between">
               <CardHeader>
                 <CardTitle>Confirmação de senha</CardTitle>
                 <CardDescription>
