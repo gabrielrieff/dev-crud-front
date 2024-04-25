@@ -8,9 +8,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { AuthContext, AuthProvider } from "@/context/authContext";
+import { AuthContext } from "@/context/authContext";
 import { useContext } from "react";
-import { useForm } from "react-hook-form";
 import { useSchemaRegister } from "./schemaRegister";
 
 export function FormRegisterUser() {

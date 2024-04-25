@@ -8,14 +8,13 @@ import {
   Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Popover,
-  PopoverTrigger,
   PopoverContent,
-} from "@radix-ui/react-popover";
-import { Column } from "@tanstack/react-table";
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { table } from "console";
 import { CalendarIcon } from "lucide-react";
 import React from "react";
@@ -23,8 +22,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export function FormFilterTodo() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date());
-
   const FormSchema = z.object({
     dob: z.date({
       required_error: "A date of birth is required.",
