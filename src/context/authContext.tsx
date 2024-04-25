@@ -31,6 +31,7 @@ type AuthContextData = {
   DeleteTodo: (id: string) => void;
   FinishTodo: (id: string) => void;
   CreateTodos: (title: string, description: string) => void;
+  UpdadeTodo: (todoId: string, title?: string, description?: string) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -241,7 +242,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  async function UpdadeTodo() {}
+  async function UpdadeTodo(
+    todoId: string,
+    title?: string,
+    description?: string
+  ) {
+    try {
+      const dataToUpdate = {
+        ...(title && { title }),
+        ...(description && { description }),
+      };
+      const response = await api.patch(`/todo-update/${todoId}`, dataToUpdate);
+
+      const todosFilter = todos.filter((item) => item.id !== todoId);
+
+      setTodos([...todosFilter, ...response.data]);
+    } catch (error) {}
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -255,6 +272,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         DeleteTodo,
         FinishTodo,
         CreateTodos,
+        UpdadeTodo,
       }}
     >
       <>{children}</>

@@ -74,7 +74,7 @@ export function ProfileForm() {
     <div className="flex flex-col gap-4">
       <Form {...form}>
         <form autoComplete="off" onSubmit={onSubmit} className="space-y-8">
-          <Card className="flex">
+          <Card className="flex md:flex-col">
             <div className="w-full">
               <CardHeader>
                 <CardTitle>Primeiro nome</CardTitle>
@@ -167,7 +167,7 @@ export function ProfileForm() {
             </CardContent>
           </Card>
 
-          <Card className="flex">
+          <Card className="flex md:flex-col">
             <div className="w-full flex flex-col justify-between">
               <CardHeader>
                 <CardTitle>Nova senha</CardTitle>

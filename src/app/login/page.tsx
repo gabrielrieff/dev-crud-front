@@ -3,6 +3,7 @@
 import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs";
 import { FormRegisterUser } from "./_components/form-register-user";
 import { FormLoginUser } from "./_components/form-login-user";
+import Link from "next/link";
 
 export default function Login() {
   return (
@@ -23,6 +24,14 @@ export default function Login() {
             <FormRegisterUser />
           </TabsContent>
         </Tabs>
+        <div className="text-center">
+          <Link
+            href={"/"}
+            className="text-sky-600 hover:text-sky-400 hover:underline"
+          >
+            Ir para pagina principal
+          </Link>
+        </div>
       </div>
     </div>
   );

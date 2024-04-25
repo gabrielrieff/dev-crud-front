@@ -5,7 +5,12 @@
 ### Geral
 
 [] - Criar filtro de todos por data;
-[] - Update de TODO;
+[] - Criar landing page;
+[x] - Alterar o nome de dashboard para Tarefas;
+[x] - Tela de perfil melhorar a responsividade;
+[x] - Tela de tema melhorar a responsividade;
+[x] - Adicionar botao ou link para home na tela de login/register;
+[x] - Update de TODO;
 
 ### Usuario/Settings
 

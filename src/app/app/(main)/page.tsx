@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <DashboardPage>
       <DashboardPageHeader>
-        <DashboardPageHeaderTitle>Dashboard</DashboardPageHeaderTitle>
+        <DashboardPageHeaderTitle>Tarefas</DashboardPageHeaderTitle>
         <DashboardPageHeaderNav>
           <TodoUpsertSheet>
             <Button variant={"outline"} size={"sm"}>

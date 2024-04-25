@@ -51,7 +51,7 @@ export default function MainSidebar({ className }: MainSidebarProps) {
         <SidebarMain>
           <SidebarLink href="/app" active={isActive("/app")}>
             <CubeIcon className="w-4 h-4 mr-3" />
-            <span className="">dashboard</span>
+            <span className="">Tarefas</span>
           </SidebarLink>
         </SidebarMain>
         <SidebarMain>

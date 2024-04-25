@@ -35,7 +35,7 @@ export function TodoUpsertSheet({
   defaultValue,
 }: TodoUpsertSheetProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const { CreateTodos } = useContext(AuthContext);
+  const { CreateTodos, UpdadeTodo } = useContext(AuthContext);
 
   const form = useForm();
 
@@ -43,8 +43,7 @@ export function TodoUpsertSheet({
     const { title, description } = data;
 
     if (defaultValue) {
-      console.log(title, description);
-      console.log("editar todo");
+      UpdadeTodo(title, description);
     } else {
       await CreateTodos(title, description);
     }
