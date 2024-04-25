@@ -31,12 +31,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Todo } from "../type";
 import { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
 import { TodoUpsertSheet } from "./todo-upsert-sheet";
+import { Todos } from "@/app/@types/todos/todos";
 
-export const columns: ColumnDef<Todo>[] = [
+export const columns: ColumnDef<Todos>[] = [
   {
     accessorKey: "status",
     header: "Status",
@@ -114,7 +114,7 @@ export const columns: ColumnDef<Todo>[] = [
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const { DeleteTodo, FinishTodo } = useContext(AuthContext);
 
-      const defaultValue: Todo = {
+      const defaultValue: Todos = {
         id: todo.id,
         title: todo.title,
         description: todo.description,
@@ -162,7 +162,7 @@ export const columns: ColumnDef<Todo>[] = [
 ];
 
 interface TodoDataTableProps {
-  data: Todo[];
+  data: Todos[];
 }
 
 export function TodoDataTable({ data }: TodoDataTableProps) {
