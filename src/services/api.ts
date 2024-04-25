@@ -5,8 +5,10 @@ import { AuthTokenError } from "./errors/authTokenErro";
 export function apiClient(ctx = undefined) {
   const cookies = parseCookies(ctx);
 
+  const baseURL = process.env.BASE_URL;
+
   const api = axios.create({
-    baseURL: process.env.BASE_URL,
+    baseURL: baseURL,
     headers: {
       Authorization: `Bearer ${cookies["@nextauth.token"]}`,
     },
