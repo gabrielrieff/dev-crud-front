@@ -43,7 +43,7 @@ export function TodoUpsertSheet({
     const { title, description } = data;
 
     if (defaultValue) {
-      UpdadeTodo(title, description);
+      UpdadeTodo(defaultValue.id, title, description);
     } else {
       await CreateTodos(title, description);
     }

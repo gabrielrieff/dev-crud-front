@@ -189,13 +189,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setTodos(todosFilter);
 
       toast({
-        title: "TODO deletado com sucesso",
-        description: `Seu TODO foi deletado com sucesso!`,
+        title: "Tarefa deletado com sucesso",
+        description: `Seu Tarefa foi deletado com sucesso!`,
       });
     } catch (error) {
       toast({
-        title: "Erro ao deletar o TODO",
-        description: `Houve um erro ao tentar deletar o TODO. Por favor, tente novamente mais tarde.`,
+        title: "Erro ao deletar o tarefa",
+        description: `Houve um erro ao tentar deletar o tarefa. Por favor, tente novamente mais tarde.`,
       });
     }
   }
@@ -213,11 +213,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setTodos(finishTodo);
 
       toast({
-        title: "TODO finalizado com sucesso",
-        description: `Seu TODO foi marcado como finalizado com sucesso!`,
+        title: "Tarefa finalizado com sucesso",
+        description: `Seu tarefa foi marcado como finalizado com sucesso!`,
       });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "Erro ao tentar finalizar a tarefa",
+      });
     }
   }
 
@@ -231,13 +233,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setTodos((Action) => [...Action, todo]);
 
       toast({
-        title: "TODO criado com sucesso",
-        description: `Seu TODO '${title}' foi criado !`,
+        title: "Tarefa criado com sucesso",
+        description: `Seu tarefa '${title}' foi criado !`,
       });
     } catch (error) {
-      console.log(error);
       toast({
-        title: "Erro ao criar o TODO",
+        title: "Erro ao criar o tarefa",
       });
     }
   }
@@ -254,10 +255,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       };
       const response = await api.patch(`/todo-update/${todoId}`, dataToUpdate);
 
+      const updatedTodo = response.data;
       const todosFilter = todos.filter((item) => item.id !== todoId);
 
-      setTodos([...todosFilter, ...response.data]);
-    } catch (error) {}
+      setTodos([...todosFilter, updatedTodo]);
+
+      toast({
+        title: "Tarefa editado com sucesso",
+        description: `Seu Tarefa foi marcado como editado com sucesso!`,
+      });
+    } catch (error) {
+      toast({
+        title: "Erro ao editar a tarefa",
+      });
+    }
   }
   return (
     <AuthContext.Provider
