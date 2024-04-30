@@ -101,6 +101,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         path: "/",
       });
 
+      setUser(undefined);
       push("/");
     } catch (error) {
       console.log("erro ao deslogar");
@@ -165,7 +166,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   async function DeleteUser(id: string) {
     try {
       await api.delete(`/user/${id}`);
-
       singOut();
     } catch (error) {
       console.log(error);
@@ -190,7 +190,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       toast({
         title: "Tarefa deletado com sucesso",
-        description: `Seu Tarefa foi deletado com sucesso!`,
+        description: `Sua Tarefa foi deletado com sucesso!`,
       });
     } catch (error) {
       toast({
@@ -214,7 +214,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       toast({
         title: "Tarefa finalizado com sucesso",
-        description: `Seu tarefa foi marcado como finalizado com sucesso!`,
+        description: `Sua tarefa foi marcado como finalizado com sucesso!`,
       });
     } catch (error) {
       toast({
@@ -234,7 +234,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       toast({
         title: "Tarefa criado com sucesso",
-        description: `Seu tarefa '${title}' foi criado !`,
+        description: `Sua tarefa '${title}' foi criado !`,
       });
     } catch (error) {
       toast({
@@ -262,7 +262,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       toast({
         title: "Tarefa editado com sucesso",
-        description: `Seu Tarefa foi marcado como editado com sucesso!`,
+        description: `Sua Tarefa foi marcado como editado com sucesso!`,
       });
     } catch (error) {
       toast({

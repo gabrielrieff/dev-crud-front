@@ -8,22 +8,29 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "@/context/authContext";
 import { useSchemaLogin } from "../../app/_components/schemaLogin";
 import { z } from "zod";
+import { InputPassword } from "./input-password";
 
 export function FormLoginUser() {
   const { signIn } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   const { form, schema } = useSchemaLogin();
   type formDataProps = z.infer<typeof schema>;
 
   async function onSubmit(data: formDataProps) {
     const { password, email } = data;
-
-    signIn(email, password);
+    setLoading(true);
+    try {
+      await signIn(email, password);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -56,15 +63,19 @@ export function FormLoginUser() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="****" {...field} />
+                  <InputPassword {...field} />
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            Login
+          <Button disabled={!loading} type="submit" className="w-full">
+            {loading ? (
+              <>Login</>
+            ) : (
+              <ReloadIcon className={`w-4 h-5 ${loading && "animate-spin"}`} />
+            )}
           </Button>
         </form>
       </Form>
