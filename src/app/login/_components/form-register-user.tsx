@@ -9,15 +9,23 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { AuthContext } from "@/context/authContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useSchemaRegister } from "./schemaRegister";
+import { InputPassword } from "./input-password";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export function FormRegisterUser() {
   const { form, schema } = useSchemaRegister();
   const { RegisterNewUser } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   const onSubmit = form.handleSubmit((data) => {
-    RegisterNewUser(data);
+    try {
+      setLoading(true);
+      RegisterNewUser(data);
+    } finally {
+      setLoading(false);
+    }
   });
   return (
     <div className="space-y-6">
@@ -79,7 +87,7 @@ export function FormRegisterUser() {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input type="password" placeholder="****" {...field} />
+                  <InputPassword {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -87,8 +95,12 @@ export function FormRegisterUser() {
             )}
           />
 
-          <Button type="submit" className="w-full">
-            Registrar
+          <Button disabled={!loading} type="submit" className="w-full">
+            {loading ? (
+              <>Registrar</>
+            ) : (
+              <ReloadIcon className={`w-4 h-5 ${loading && "animate-spin"}`} />
+            )}
           </Button>
         </form>
       </Form>
