@@ -74,7 +74,7 @@ export function FormLoginUser() {
             {loading ? (
               <>Login</>
             ) : (
-              <ReloadIcon className={`w-4 h-5 ${loading && "animate-spin"}`} />
+              <ReloadIcon className="w-4 h-5 animate-spin" />
             )}
           </Button>
         </form>
