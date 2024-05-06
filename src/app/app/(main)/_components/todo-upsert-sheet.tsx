@@ -47,6 +47,10 @@ export function TodoUpsertSheet({
     } else {
       await CreateTodos(title, description);
     }
+    form.reset({
+      title: "",
+      description: "",
+    });
   });
   return (
     <Sheet>
