@@ -15,6 +15,7 @@ import { AuthContext } from "@/context/authContext";
 import { useSchemaLogin } from "../../app/_components/schemaLogin";
 import { z } from "zod";
 import { InputPassword } from "./input-password";
+import Link from "next/link";
 
 export function FormLoginUser() {
   const { signIn } = useContext(AuthContext);
@@ -61,7 +62,17 @@ export function FormLoginUser() {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Senha</FormLabel>
+                <div className="flex justify-between">
+                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>
+                    <Link
+                      href={"/login/recoverpassword"}
+                      className="text-sky-500"
+                    >
+                      Esqueci minha senha
+                    </Link>
+                  </FormLabel>
+                </div>
                 <FormControl>
                   <InputPassword {...field} />
                 </FormControl>
