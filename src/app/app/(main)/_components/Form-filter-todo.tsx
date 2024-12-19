@@ -7,23 +7,26 @@ import {
   FormControl,
   Form,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { AuthContext } from "@/context/authContext";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export function FormFilterTodo() {
+  const { GetTodos } = useContext(AuthContext);
+
   const FormSchema = z.object({
-    dob: z.date({
-      required_error: "A date of birth is required.",
+    range: z.object({
+      from: z.date(),
+      to: z.date(),
     }),
   });
 
@@ -31,35 +34,24 @@ export function FormFilterTodo() {
     resolver: zodResolver(FormSchema),
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  function onSubmit(data: z.infer<typeof FormSchema>) {
+    const start = data.range.from.toLocaleDateString();
+    const end = data.range.to.toLocaleDateString();
+
+    GetTodos(start, end);
+  }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="rounded-md border flex px-2 py-3 items-end gap-2"
+      >
         <FormField
           control={form.control}
-          name="dob"
+          name="range"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Todo</FormLabel>
-              <Input
-                placeholder="Filtrar por TODO"
-                // value={
-                //   (table.getColumn("title")?.getFilterValue() as string) ?? ""
-                // }
-                // onChange={(event) =>
-                //   table.getColumn("title")?.setFilterValue(event.target.value)
-                // }
-                className="max-w-sm"
-              />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="dob"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Data de criação</FormLabel>
+              <FormLabel>Data</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -71,7 +63,10 @@ export function FormFilterTodo() {
                       )}
                     >
                       {field.value ? (
-                        new Date(field.value).toLocaleDateString("pt-BR")
+                        `${new Date(field.value.from).toLocaleDateString(
+                          "pt-BR"
+                        )} a 
+                        ${new Date(field.value.to).toLocaleDateString("pt-BR")}`
                       ) : (
                         <span>Data</span>
                       )}
@@ -81,7 +76,7 @@ export function FormFilterTodo() {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
-                    mode="single"
+                    mode="range"
                     selected={field.value}
                     onSelect={field.onChange}
                     disabled={(date) =>

@@ -7,6 +7,7 @@ import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { date } from "zod";
 
 type AuthContextData = {
   user?: User;
@@ -32,6 +33,7 @@ type AuthContextData = {
   FinishTodo: (id: string) => void;
   CreateTodos: (title: string, description: string) => void;
   UpdadeTodo: (todoId: string, title?: string, description?: string) => void;
+  GetTodos: (start: string, end: string) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -57,7 +59,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email,
             token,
           });
-          GetTodos();
+
+          const date = new Date().toLocaleDateString();
+
+          GetTodos(date, date);
         })
         .catch(() => {
           singOut();
@@ -88,7 +93,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      GetTodos();
+      const date = new Date().toLocaleDateString();
+
+      GetTodos(date, date);
       push("/app");
     } catch (error) {
       console.log(error);
@@ -173,9 +180,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   //TODOS
-  async function GetTodos() {
+  async function GetTodos(start: string, end: string) {
     try {
-      const response = await api.get("/todo");
+      const response = await api.get(`/todos?start=${start}&end=${end}`);
       setTodos(response.data);
     } catch (error) {
       console.log(error);
@@ -284,6 +291,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         FinishTodo,
         CreateTodos,
         UpdadeTodo,
+        GetTodos,
       }}
     >
       <>{children}</>
