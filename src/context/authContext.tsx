@@ -60,8 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             token,
           });
 
-          const date = new Date().toLocaleDateString();
-
+          const date = new Date().toLocaleDateString("en-us");
           GetTodos(date, date);
         })
         .catch(() => {
@@ -93,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      const date = new Date().toLocaleDateString();
+      const date = new Date().toLocaleDateString("en-us");
 
       GetTodos(date, date);
       push("/app");

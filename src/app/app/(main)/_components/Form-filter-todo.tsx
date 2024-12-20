@@ -35,8 +35,8 @@ export function FormFilterTodo() {
   });
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    const start = data.range.from.toLocaleDateString();
-    const end = data.range.to.toLocaleDateString();
+    const start = data.range.from.toLocaleDateString("en-us");
+    const end = data.range.to.toLocaleDateString("en-us");
 
     GetTodos(start, end);
   }
