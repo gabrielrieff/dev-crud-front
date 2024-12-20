@@ -33,7 +33,7 @@ type AuthContextData = {
   FinishTodo: (id: string) => void;
   CreateTodos: (title: string, description: string) => void;
   UpdadeTodo: (todoId: string, title?: string, description?: string) => void;
-  GetTodos: (start: string, end: string) => void;
+  GetTodos: (start: string, end: string, status?: string) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -179,9 +179,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   //TODOS
-  async function GetTodos(start: string, end: string) {
+  async function GetTodos(start: string, end: string, status?: string) {
     try {
-      const response = await api.get(`/todos?start=${start}&end=${end}`);
+      const response = await api.get(
+        `/todos?start=${start}&end=${end}${
+          status !== undefined ? `&status=${status}` : ""
+        }`
+      );
       setTodos(response.data);
     } catch (error) {
       console.log(error);
