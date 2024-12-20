@@ -31,7 +31,7 @@ type AuthContextData = {
 
   DeleteTodo: (id: string) => void;
   FinishTodo: (id: string) => void;
-  CreateTodos: (title: string, description: string) => void;
+  CreateTodos: (title: string, description: string, created_at: string) => void;
   UpdadeTodo: (todoId: string, title?: string, description?: string) => void;
   GetTodos: (start: string, end: string, status?: string) => void;
 };
@@ -233,11 +233,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  async function CreateTodos(title: string, description: string) {
+  async function CreateTodos(
+    title: string,
+    description: string,
+    created_at: string
+  ) {
     try {
       const response = await api.post("todo", {
         title,
         description,
+        created_at,
       });
       const todo = response.data;
       setTodos((Action) => [...Action, todo]);
