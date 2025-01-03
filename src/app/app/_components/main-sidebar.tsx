@@ -44,7 +44,7 @@ export default function MainSidebar({ className }: MainSidebarProps) {
     <Sidebar className={className}>
       <SidebarHeader>
         <Logo />
-        <SidebarTitleHeader>dev-crud</SidebarTitleHeader>
+        <SidebarTitleHeader>Gestão de tarefas</SidebarTitleHeader>
       </SidebarHeader>
 
       <SidebarNav className="flex flex-col flex-grow">

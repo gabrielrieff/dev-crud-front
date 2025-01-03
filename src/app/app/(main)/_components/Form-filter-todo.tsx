@@ -49,6 +49,14 @@ export function FormFilterTodo() {
 
     GetTodos(start, end, status);
   }
+
+  function CleanFilter() {
+    const date = new Date();
+    const start = date.toLocaleDateString("en-us");
+    const end = date.toLocaleDateString("en-us");
+    GetTodos(start, end);
+    form.reset();
+  }
   return (
     <Form {...form}>
       <form
@@ -134,7 +142,7 @@ export function FormFilterTodo() {
         </div>
         <div className="flex items-end gap-3">
           <Button type="submit">Aplicar filtro</Button>
-          <Button variant="outline" type="submit">
+          <Button variant="outline" type="button" onClick={CleanFilter}>
             Limpar filtro
           </Button>
         </div>
