@@ -35,6 +35,7 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/authContext";
 import { TodoUpsertSheet } from "./todo-upsert-sheet";
 import { Todos } from "@/app/@types/todos/todos";
+import { FormFilterTodo } from "./Form-filter-todo";
 
 export const columns: ColumnDef<Todos>[] = [
   {
@@ -194,7 +195,8 @@ export function TodoDataTable({ data }: TodoDataTableProps) {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full space-y-8">
+      <FormFilterTodo />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

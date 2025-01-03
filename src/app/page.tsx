@@ -9,9 +9,9 @@ export default function Home() {
         <HeaderMain />
 
         <div className="text-center">
-          <h4 className="text-5xl font-bold">Seja bem-vindo ao</h4>
+          <h4 className="text-5xl font-bold">Bem-vindo ao seu app de</h4>
           <h1 className="text-9xl font-bold bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent">
-            dev-crud
+            Gestão de tarefas
           </h1>
         </div>
       </div>

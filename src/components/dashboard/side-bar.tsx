@@ -86,6 +86,7 @@ export function SidebarLinkSimple({
   return (
     <Link
       href={href}
+      target="_blank"
       className={cn([
         "text-sm px-3 py-2 rounded-md flex items-center hover:text-orange-500 dark:hover:text-orange-500 transition-[1s]",
         className,

@@ -7,6 +7,7 @@ import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { date } from "zod";
 
 type AuthContextData = {
   user?: User;
@@ -30,8 +31,9 @@ type AuthContextData = {
 
   DeleteTodo: (id: string) => void;
   FinishTodo: (id: string) => void;
-  CreateTodos: (title: string, description: string) => void;
+  CreateTodos: (title: string, description: string, created_at: string) => void;
   UpdadeTodo: (todoId: string, title?: string, description?: string) => void;
+  GetTodos: (start: string, end: string, status?: string) => void;
 };
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -57,7 +59,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             email,
             token,
           });
-          GetTodos();
+
+          const date = new Date().toLocaleDateString("en-us");
+          GetTodos(date, date);
         })
         .catch(() => {
           singOut();
@@ -88,7 +92,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       api.defaults.headers["Authorization"] = `Bearer ${token}`;
-      GetTodos();
+      const date = new Date().toLocaleDateString("en-us");
+
+      GetTodos(date, date);
       push("/app");
     } catch (error) {
       console.log(error);
@@ -173,9 +179,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   //TODOS
-  async function GetTodos() {
+  async function GetTodos(start: string, end: string, status?: string) {
     try {
-      const response = await api.get("/todo");
+      const response = await api.get(
+        `/todos?start=${start}&end=${end}${
+          status !== undefined ? `&status=${status}` : ""
+        }`
+      );
       setTodos(response.data);
     } catch (error) {
       console.log(error);
@@ -223,11 +233,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
-  async function CreateTodos(title: string, description: string) {
+  async function CreateTodos(
+    title: string,
+    description: string,
+    created_at: string
+  ) {
     try {
       const response = await api.post("todo", {
         title,
         description,
+        created_at,
       });
       const todo = response.data;
       setTodos((Action) => [...Action, todo]);
@@ -284,6 +299,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         FinishTodo,
         CreateTodos,
         UpdadeTodo,
+        GetTodos,
       }}
     >
       <>{children}</>
